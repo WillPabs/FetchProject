@@ -29,6 +29,7 @@ public class TransactionController {
         Transaction txn = new Transaction(newTransaction.getPayer(), newTransaction.getPoints());
         transactions.add(txn);
         // fix to return JSON 
+        // https://stackoverflow.com/questions/4075991/post-request-via-resttemplate-in-json
         return txn;
     }
     
