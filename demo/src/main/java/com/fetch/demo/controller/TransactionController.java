@@ -59,6 +59,20 @@ public class TransactionController {
         return payersPoints;
     }
 
+    @GetMapping("/transactions/spend")
+    public List<Transaction> spendPoints(@RequestParam int points) {
+        
+        transactions.sort((txn1, txn2) -> txn1.getDate().compareTo(txn2.getDate()));
+        return transactions;
+
+        // Collections.sort(transactions, new Comparator<Transaction>() {
+        //     public int compare(Transaction txn1, Transaction txn2) {
+        //         return txn1.getDate().compareTo(txn2.getDate());
+        //     }
+        // });
+        
+    }
+
     @PostMapping("/transactions")
     public ResponseEntity<?> addTransaction(@RequestBody Transaction newTransaction) {
         Transaction txn = new Transaction(newTransaction.getPayer(), newTransaction.getPoints());
