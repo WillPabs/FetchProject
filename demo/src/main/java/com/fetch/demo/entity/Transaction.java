@@ -14,7 +14,7 @@ public class Transaction {
     private LocalDateTime date;
 
     public Transaction(String payer, int points) {
-        this.transactionID = ++count;
+        this.transactionID = count++;
         this.payer = payer;
         this.points = points; 
         this.date = LocalDateTime.now();
