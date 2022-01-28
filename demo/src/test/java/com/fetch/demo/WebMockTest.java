@@ -1,15 +1,12 @@
 package com.fetch.demo;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fetch.demo.controller.TransactionController;
 import com.fetch.demo.entity.Transaction;
@@ -35,28 +32,37 @@ public class WebMockTest {
     @MockBean
     private TransactionController txnController;
 
+    private List<Transaction> txnList = new ArrayList<>();
 
-    // Resources:
-    // https://reflectoring.io/spring-boot-web-controller-test/
-    // https://stackoverflow.com/questions/41794263/asserting-list-of-return-items-from-spring-controller-with-mockmvc
-    @Test
-    public void methodShouldReturnListOfTransactions() {
-        // Given
-        List<Transaction> txnList = new ArrayList<>();
-    
-        // When
+    @Before
+    public void setUp() {
         txnList.add(new Transaction("Will", 1000));
         txnList.add(new Transaction("Jack", 1000));
         txnList.add(new Transaction("John", 1000));
         txnList.add(new Transaction("Mark", 1000));
-        objectMapper = new ObjectMapper();
-        String jsonList;
+    }
+
+
+
+    // Resources:
+    // https://reflectoring.io/spring-boot-web-controller-test/
+    // https://stackoverflow.com/questions/41794263/asserting-list-of-return-items-from-spring-controller-with-mockmvc
+    // https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-rest-api/
+    @Test
+    public void methodShouldReturnListOfTransactions() {
+        
 
         // Then
         try {
-            jsonList = objectMapper.writeValueAsString(txnList);
-            when(txnController.getTransactions()).thenReturn(txnList);
-            this.mockMvc.perform(get("/transactions")).andDo(print()).andExpect(content().json(jsonList));
+            when(txnController.getTransactions())
+                .thenReturn(txnList);
+            this.mockMvc.perform(get("/transactions"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json")
+                .andExpect(jsonPath("$", hasSize(4)))
+                .andExpect(jsonPath("$[0].payer", is("Will")))
+                .
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
