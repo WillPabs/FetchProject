@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fetch.demo.controller.TransactionController;
 import com.fetch.demo.entity.Transaction;
@@ -49,11 +50,16 @@ public class WebMockTest {
         txnList.add(new Transaction("John", 1000));
         txnList.add(new Transaction("Mark", 1000));
         objectMapper = new ObjectMapper();
-        String jsonList = objectMapper.writeValueAsString(txnList);
-
-        when(txnController.getTransactions()).thenReturn(txnList);
+        String jsonList;
 
         // Then
-        this.mockMvc.perform(get("/transactions")).andDo(print()).andExpect(content().json(jsonList));
+        try {
+            jsonList = objectMapper.writeValueAsString(txnList);
+            when(txnController.getTransactions()).thenReturn(txnList);
+            this.mockMvc.perform(get("/transactions")).andDo(print()).andExpect(content().json(jsonList));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
