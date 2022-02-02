@@ -8,14 +8,14 @@ Run project in terminal using command "mvn spring-boot:run"
 
 Example command line options for Transaction Controller Requests using curl
 
-  Get all transactions
-  - curl -v http://localhost:8080/transactions
+  - Get all transactions
+    - curl -v http://localhost:8080/transactions
 
-  Get payers' points
-  - curl -v http://localhost:8080/transactions/points
+  - Get payers' points
+    - curl -v http://localhost:8080/transactions/points
   
-  Add transaction
-  - curl -d '{"payer":"will","points":1000}' -H 'Content-Type: application/json' http://localhost:8080/transactions
+  - Add transaction
+    - curl -d '{"payer":"will","points":1000}' -H 'Content-Type: application/json' http://localhost:8080/transactions
 
-  Spend points
-  - curl -d '{"points":1000}' -H 'Content-Type: application/json' http://localhost:8080/transactions/spend
+  - Spend points
+    - curl -d '{"points":1000}' -H 'Content-Type: application/json' http://localhost:8080/transactions/spend
