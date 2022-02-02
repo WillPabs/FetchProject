@@ -12,12 +12,10 @@ Example command line options for Transaction Controller Requests using curl
   - curl -v http://localhost:8080/transactions
 
   Get payers' points
-  localhost:8080/transactions/points
   - curl -v http://localhost:8080/transactions/points
   
   Add transaction
   - curl -d '{"payer":"will","points":1000}' -H 'Content-Type: application/json' http://localhost:8080/transactions
 
   Spend points
-  localhost:8080/transactions/spend
   - curl -d '{"points":1000}' -H 'Content-Type: application/json' http://localhost:8080/transactions/spend
