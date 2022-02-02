@@ -42,7 +42,7 @@ public class TransactionService {
         // loop through transactions, subtract points from payer's points
         for (Transaction txn : txnList) {
             if (pointsToSpend > 0) {
-                // if pointsToSpend goes below 0, subtract all of current transaction's points, 
+                // if pointsToSpend goes below 0, subtract remaining pointsTospend from current transaction's points, 
                 // add transaction to spentTransaction list, and update specfic payer's points
                 if (pointsToSpend - txn.getPoints() < 0) {
                     pointsToSpend = txn.getPoints() - pointsToSpend;
