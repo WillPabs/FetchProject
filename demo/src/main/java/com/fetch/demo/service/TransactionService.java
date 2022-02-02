@@ -33,23 +33,25 @@ public class TransactionService {
         return txn;
     }
 
-    public List<SpentTransaction> spendPoints(Transaction pointsToSpend) {
+    public List<SpentTransaction> spendPoints(Transaction transaction) {
         TransactionService.transactions.sort((txn1, txn2) -> txn1.getDate().compareTo(txn2.getDate()));
         List<Transaction> txnList = new ArrayList<>(TransactionService.transactions); //copy of transactions to avoid ConcurrentModificationException
 
         List<SpentTransaction> spentTransactions = new ArrayList<>();
-        int spent = pointsToSpend.getPoints();
+        int pointsToSpend = transaction.getPoints();
         // loop through transactions, subtract points from payer's points
         for (Transaction txn : txnList) {
-            if (spent > 0) {
-                if (spent - txn.getPoints() < 0) {
-                    spent = txn.getPoints() - spent;
-                    spentTransactions.add(new SpentTransaction(txn.getPayer(), spent * -1));
-                    this.payersPoints.put(txn.getPayer(), spent);
-                    txn.setPoints(spent);
-                    spent = 0;
+            if (pointsToSpend > 0) {
+                // if pointsToSpend goes below 0, subtract all of current transaction's points, 
+                // add transaction to spentTransaction list, and update specfic payer's points
+                if (pointsToSpend - txn.getPoints() < 0) {
+                    pointsToSpend = txn.getPoints() - pointsToSpend;
+                    spentTransactions.add(new SpentTransaction(txn.getPayer(), pointsToSpend * -1));
+                    this.payersPoints.put(txn.getPayer(), pointsToSpend);
+                    txn.setPoints(pointsToSpend);
+                    pointsToSpend = 0;
                 } else {
-                    spent -= txn.getPoints();
+                    pointsToSpend -= txn.getPoints();
                     spentTransactions.add(new SpentTransaction(txn.getPayer(), txn.getPoints() * -1));
                     this.payersPoints.put(txn.getPayer(), this.payersPoints.get(txn.getPayer()) - txn.getPoints());
                     txn.setPoints(0);
