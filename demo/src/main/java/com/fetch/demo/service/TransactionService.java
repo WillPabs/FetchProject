@@ -2,11 +2,7 @@ package com.fetch.demo.service;
 
 import com.fetch.demo.entity.SpentTransaction;
 import com.fetch.demo.entity.Transaction;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +14,7 @@ public class TransactionService {
     private HashMap<String, Integer> payersPoints = new HashMap<>();
 
     private TransactionService (List<Transaction> transactions) {
-        this.transactions = transactions;
+        TransactionService.transactions = transactions;
     }
 
     public Transaction saveTransaction(Transaction transaction) {
@@ -38,7 +34,7 @@ public class TransactionService {
     }
 
     public List<SpentTransaction> spendPoints(Transaction pointsToSpend) {
-        this.transactions.sort((txn1, txn2) -> txn1.getDate().compareTo(txn2.getDate()));
+        TransactionService.transactions.sort((txn1, txn2) -> txn1.getDate().compareTo(txn2.getDate()));
         List<Transaction> txnList = new ArrayList<>(this.transactions); //copy of transactions to avoid ConcurrentModificationException
 
         List<SpentTransaction> spentTransactions = new ArrayList<>();
@@ -71,6 +67,6 @@ public class TransactionService {
     }
 
     public List<Transaction> findTransactions() {
-        return this.transactions;
+        return TransactionService.transactions;
     }
 }
