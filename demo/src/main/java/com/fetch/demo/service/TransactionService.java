@@ -35,7 +35,7 @@ public class TransactionService {
 
     public List<SpentTransaction> spendPoints(Transaction pointsToSpend) {
         TransactionService.transactions.sort((txn1, txn2) -> txn1.getDate().compareTo(txn2.getDate()));
-        List<Transaction> txnList = new ArrayList<>(this.transactions); //copy of transactions to avoid ConcurrentModificationException
+        List<Transaction> txnList = new ArrayList<>(TransactionService.transactions); //copy of transactions to avoid ConcurrentModificationException
 
         List<SpentTransaction> spentTransactions = new ArrayList<>();
         int spent = pointsToSpend.getPoints();
