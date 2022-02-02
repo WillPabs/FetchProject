@@ -14,37 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TransactionController {
 
-    private final List<Transaction> transactions;
-    private HashMap<String, Integer> payersPoints = new HashMap<>();
-
     @Autowired
     private TransactionService transactionService;
-
-    private TransactionController(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
 
     @GetMapping("/transactions")
     public List<Transaction> getTransactions() {
         return transactionService.findTransactions();
-    }
-
-    @GetMapping("/transactions/{name}")
-    public List<Transaction> getTransactionsByName(@PathVariable("name") String name) {
-        try {
-            List<Transaction> payerTransactions = new ArrayList<>();
-
-            for (Transaction txn : transactions) {
-                if (txn.getPayer().equals(name)) {
-                    payerTransactions.add(txn);
-                }
-            }
-
-            return payerTransactions;
-        } catch (Exception e) {
-            System.out.println("No Payer with that name exists");
-        }
-        return null;
     }
 
     @GetMapping("/transactions/points")
