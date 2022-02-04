@@ -1,15 +1,17 @@
 # FetchProject
 
-## Users of this project must install the following: 
-- JDK 11 (https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
-- Maven (https://mkyong.com/maven/how-to-install-maven-in-windows/)
 
-## Run Project
+## How to Run
+- Clone this repository
+- Users of this project must install the following: 
+  - JDK 11 (https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)
+  - Maven (https://mkyong.com/maven/how-to-install-maven-in-windows/)
+- Run the service: 
  ```
-mvn spring-boot:run
-```
+ mvn spring-boot:run
+ ```
 
-Example command line options for Transaction Controller Requests using curl
+## Example command line options for Transaction Controller Requests using curl
   
   ### Get all transactions
   ```
